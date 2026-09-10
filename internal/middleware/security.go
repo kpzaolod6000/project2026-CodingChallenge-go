@@ -15,7 +15,7 @@ func SetupSecurityMiddlewares(app *fiber.App) {
 	app.Use(helmet.New())
 
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "*",
+		AllowOrigins: "https://kpzaolod6000.github.io, http://localhost:3001",
 		AllowHeaders: "Origin, Content-Type, Accept, X-API-Key",
 		AllowMethods: "GET, POST, OPTIONS",
 	}))
