@@ -54,16 +54,16 @@ func (h *MatrixHandler) ProcessMatrix(c *fiber.Ctx) error {
 		"r": r,
 	}
 
-	// stats, err := h.nodeClient.SendStats(qrResult)
-	// if err != nil {
-	// 	return c.Status(fiber.StatusBadGateway).JSON(fiber.Map{
-	// 		"error":   "falla al comunicar con node-api",
-	// 		"details": err.Error(),
-	// 	})
-	// }
+	stats, err := h.nodeClient.SendStats(qrResult)
+	if err != nil {
+		return c.Status(fiber.StatusBadGateway).JSON(fiber.Map{
+			"error":   "falla al comunicar con node-api",
+			"details": err.Error(),
+		})
+	}
 
 	return c.JSON(fiber.Map{
 		"qr":    qrResult,
-		"stats": nil,
+		"stats": stats,
 	})
 }

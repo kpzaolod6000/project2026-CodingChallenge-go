@@ -9,9 +9,6 @@ import (
 
 func KeyAuth() fiber.Handler {
 	expectedKey := os.Getenv("API_KEY")
-	if expectedKey == "" {
-		expectedKey = "coding-challenge"
-	}
 
 	return func(c *fiber.Ctx) error {
 		clientKey := c.Get("X-API-Key")
