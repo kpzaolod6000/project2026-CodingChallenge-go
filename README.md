@@ -30,6 +30,9 @@ go-api/
 │   │   └── node_client.go    # Cliente HTTP M2M con generación de JWT
 │   ├── handler/
 │   │   └── matrix_handler.go # Handlers y validación de matrices
+│   ├── matrix/
+│   │   ├── gram_schmidt.go      # Algoritmo de descomposición QR (Gram-Schmidt)
+│   │   └── gram_schmidt_test.go # Pruebas unitarias para descomposición QR
 │   └── middleware/
 │       ├── auth.go           # Middleware de autenticación X-API-Key
 │       └── security.go       # CORS, Helmet, Rate Limiter y Recover
