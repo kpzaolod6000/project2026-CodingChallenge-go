@@ -10,10 +10,7 @@ var (
 	ErrNonRectangular = errors.New("la matriz debe ser rectangular")
 )
 
-// GramSchmidtQR calcula la descomposición QR de una matriz A (m x n) utilizando
-// el algoritmo de Gram-Schmidt Modificado (MGS).
-// Devuelve la matriz ortogonal Q (m x n) y la matriz triangular superior R (n x n)
-// tal que A = Q * R.
+// A = Q * R.
 func GramSchmidtQR(A [][]float64) ([][]float64, [][]float64, error) {
 	if len(A) == 0 || len(A[0]) == 0 {
 		return nil, nil, ErrEmptyMatrix
