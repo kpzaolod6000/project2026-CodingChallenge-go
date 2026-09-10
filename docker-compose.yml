@@ -1,0 +1,19 @@
+services:
+  go-api:
+    build:
+      context: .
+      target: ${GO_BUILD_TARGET:-prod}
+    container_name: go-api
+    environment:
+      - PORT=${PORT:-3000}
+      - NODE_API_URL=${NODE_API_URL:-http://node-api:4000}
+      - JWT_SECRET=${JWT_SECRET}
+      - API_KEY=${API_KEY}
+    ports:
+      - "${PORT:-3000}:${PORT:-3000}"
+    networks:
+      - api-net
+
+networks:
+  api-net:
+    external: true

@@ -1,0 +1,51 @@
+# Binaries for programs and tests
+*.exe
+*.exe?
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+bin/
+dist/
+build/
+main
+app
+server
+
+# Output of 'go build'
+/bin
+/dist
+
+# Architecture-specific files
+*.a
+*.o
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# IDE and Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.antigravity/
+
+# Operating System files
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+
+# Test coverage
+*.cover
+*.gocov
+coverage.out
+coverage.html
+
+# Log files
+*.log
+logs/
