@@ -3,11 +3,12 @@ WORKDIR /app
 RUN apk add --no-cache ca-certificates git
 
 FROM base AS dev
+RUN apk add --no-cache bash
 RUN go install github.com/air-verse/air@latest
 COPY . .
 RUN go mod tidy
 EXPOSE 3000
-CMD ["air", "-c", ".air.toml"]
+CMD ["air"]
 
 FROM base AS builder
 COPY . .
@@ -19,11 +20,10 @@ WORKDIR /app
 
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
-COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=builder /app/bin/go-api ./go-api
+COPY --from=builder /app/bin/go-api /usr/local/bin/go-api
 
 USER appuser
 
 EXPOSE 3000
 
-CMD ["./go-api"]
+CMD ["go-api"]

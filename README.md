@@ -71,11 +71,11 @@ Comprueba el estado de salud del servicio (no requiere autenticación).
 
 ---
 
-### 2. Procesamiento de Matriz
+### 2. Procesamiento de Matriz (Factorización QR)
 Recibe una matriz bidimensional de números flotantes, valida su estructura y calcula/obtiene las estadísticas consolidadas.
 
 - **Método**: `POST`
-- **Ruta**: `/api/matrix`
+- **Ruta**: `/api/factorization`
 - **Cabeceras requeridas**:
   - `Content-Type: application/json`
   - `X-API-Key: <TU_API_KEY>` (por defecto `coding-challenge`)
@@ -154,7 +154,7 @@ Asegúrate de contar con **Go 1.22+** instalado.
 ## 🧪 Ejemplo de Petición con `curl`
 
 ```bash
-curl -X POST http://localhost:3000/api/matrix \
+curl -X POST http://localhost:3000/api/factorization \
   -H "Content-Type: application/json" \
   -H "X-API-Key: coding-challenge" \
   -d '{
@@ -164,3 +164,30 @@ curl -X POST http://localhost:3000/api/matrix \
     ]
   }'
 ```
+
+---
+
+## 🧪 Pruebas Unitarias (Tests)
+
+Para ejecutar los tests unitarios del paquete de descomposición matricial (Gram-Schmidt):
+
+### Con Docker (Contenedor en ejecución):
+
+Asegúrate de estar en el directorio raíz del proyecto (`go-api`) y ejecuta:
+
+```bash
+docker compose exec go-api go test ./internal/matrix/... -v
+```
+
+O para ejecutar todos los tests del proyecto:
+
+```bash
+docker compose exec go-api go test ./... -v
+```
+
+### Ejecución Local Directa:
+
+```bash
+go test ./internal/matrix/... -v
+```
+

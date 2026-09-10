@@ -31,7 +31,7 @@ func main() {
 	})
 
 	api := app.Group("/api", middleware.KeyAuth())
-	api.Post("/matrix", matrixHandler.ProcessMatrix)
+	api.Post("/factorization", matrixHandler.ProcessMatrix)
 
 	port := os.Getenv("PORT")
 	if port == "" {

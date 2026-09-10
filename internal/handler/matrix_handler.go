@@ -1,8 +1,10 @@
 package handler
 
 import (
-	"github.com/gofiber/fiber/v2"
 	"go-api/internal/client"
+	"go-api/internal/matrix"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 type MatrixHandler struct {
@@ -40,22 +42,28 @@ func (h *MatrixHandler) ProcessMatrix(c *fiber.Ctx) error {
 		}
 	}
 
-	// Placeholder para Householder QR
-	placeholderQR := fiber.Map{
-		"q": req.Matrix,
-		"r": req.Matrix,
-	}
-
-	stats, err := h.nodeClient.SendStats(placeholderQR)
+	q, r, err := matrix.GramSchmidtQR(req.Matrix)
 	if err != nil {
-		return c.Status(fiber.StatusBadGateway).JSON(fiber.Map{
-			"error":   "falla al comunicar con node-api",
-			"details": err.Error(),
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": err.Error(),
 		})
 	}
 
+	qrResult := fiber.Map{
+		"q": q,
+		"r": r,
+	}
+
+	// stats, err := h.nodeClient.SendStats(qrResult)
+	// if err != nil {
+	// 	return c.Status(fiber.StatusBadGateway).JSON(fiber.Map{
+	// 		"error":   "falla al comunicar con node-api",
+	// 		"details": err.Error(),
+	// 	})
+	// }
+
 	return c.JSON(fiber.Map{
-		"qr":    placeholderQR,
-		"stats": stats,
+		"qr":    qrResult,
+		"stats": nil,
 	})
 }

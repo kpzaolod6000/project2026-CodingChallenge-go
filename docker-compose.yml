@@ -2,13 +2,18 @@ services:
   go-api:
     build:
       context: .
-      target: ${GO_BUILD_TARGET:-prod}
+      target: ${GO_BUILD_TARGET:-dev}
     container_name: go-api
+    working_dir: /app
+    stdin_open: true
+    tty: true
     environment:
       - PORT=${PORT:-3000}
       - NODE_API_URL=${NODE_API_URL:-http://node-api:4000}
       - JWT_SECRET=${JWT_SECRET}
       - API_KEY=${API_KEY}
+    volumes:
+      - .:/app
     ports:
       - "${PORT:-3000}:${PORT:-3000}"
     networks:
