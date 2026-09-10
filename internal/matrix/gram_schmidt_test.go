@@ -44,9 +44,21 @@ func transpose(A [][]float64) [][]float64 {
 
 func TestGramSchmidtQR_SquareMatrix(t *testing.T) {
 	A := [][]float64{
-		{1.0, 2.0, 4.0},
-		{3.0, 8.0, 14.0},
-		{2.0, 6.0, 13.0},
+		{1.0, 1.0, 1.0},
+		{0.0, 1.0, 1.0},
+		{1.0, 0.0, -1.0},
+	}
+
+	expectedQ := [][]float64{
+		{math.Sqrt(2) / 2.0, math.Sqrt(6) / 6.0, math.Sqrt(3) / 3.0},
+		{0.0, math.Sqrt(6) / 3.0, -math.Sqrt(3) / 3.0},
+		{math.Sqrt(2) / 2.0, -math.Sqrt(6) / 6.0, -math.Sqrt(3) / 3.0},
+	}
+
+	expectedR := [][]float64{
+		{math.Sqrt(2), math.Sqrt(2) / 2.0, 0.0},
+		{0.0, math.Sqrt(6) / 2.0, 2.0 * math.Sqrt(6) / 3.0},
+		{0.0, 0.0, math.Sqrt(3) / 3.0},
 	}
 
 	Q, R, err := matrix.GramSchmidtQR(A)
@@ -64,7 +76,25 @@ func TestGramSchmidtQR_SquareMatrix(t *testing.T) {
 		t.Errorf("R shape mismatch: got %dx%d, want %dx%d", len(R), len(R[0]), n, n)
 	}
 
-	// 2. Verify Q * R == A
+	// 2. Verify Q matches expected Q
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if math.Abs(Q[i][j]-expectedQ[i][j]) > tolerance {
+				t.Errorf("Q[%d][%d] mismatch: got %f, want %f", i, j, Q[i][j], expectedQ[i][j])
+			}
+		}
+	}
+
+	// 3. Verify R matches expected R
+	for i := 0; i < n; i++ {
+		for j := 0; j < n; j++ {
+			if math.Abs(R[i][j]-expectedR[i][j]) > tolerance {
+				t.Errorf("R[%d][%d] mismatch: got %f, want %f", i, j, R[i][j], expectedR[i][j])
+			}
+		}
+	}
+
+	// 4. Verify Q * R == A
 	QR := multiply(Q, R)
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
@@ -74,7 +104,7 @@ func TestGramSchmidtQR_SquareMatrix(t *testing.T) {
 		}
 	}
 
-	// 3. Verify Q^T * Q == I_n
+	// 5. Verify Q^T * Q == I_n
 	Qt := transpose(Q)
 	QtQ := multiply(Qt, Q)
 	for i := 0; i < n; i++ {
@@ -89,7 +119,7 @@ func TestGramSchmidtQR_SquareMatrix(t *testing.T) {
 		}
 	}
 
-	// 4. Verify R is upper triangular (R[i][j] == 0 for i > j)
+	// 6. Verify R is upper triangular (R[i][j] == 0 for i > j)
 	for i := 0; i < n; i++ {
 		for j := 0; j < i; j++ {
 			if math.Abs(R[i][j]) > tolerance {
